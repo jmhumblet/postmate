@@ -6,12 +6,6 @@
 export const messageType = 'application/x-postmate-v1+json'
 
 /**
- * The maximum number of attempts to send a handshake request to the parent
- * @type {Number}
- */
-export const maxHandshakeRequests = 5
-
-/**
  * A unique message ID that is used to ensure responses are sent to the correct requests
  * @type {Number}
  */
@@ -263,6 +257,11 @@ export class ChildAPI {
  */
 class Postmate {
   static debug = false // eslint-disable-line no-undef
+  /**
+   * The maximum number of attempts to send a handshake request to the parent
+   * @type {Number}
+   */
+  static maxHandshakeRequests = 5
 
   // Internet Explorer craps itself
   static Promise = (() => {
@@ -336,7 +335,7 @@ class Postmate {
       this.parent.addEventListener('message', reply, false)
 
       const doSend = () => {
-        if (++attempt > maxHandshakeRequests) {
+        if (++attempt > Postmate.maxHandshakeRequests) {
           clearInterval(responseInterval)
           return reject('Handshake Timeout Reached')
         }
