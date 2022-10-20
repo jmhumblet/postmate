@@ -74,11 +74,16 @@ export const sanitize = (message, allowedOrigin) => {
   return true
 }
 
-const CheckDefaultLoggerMethods = (logger) => {
-  const loggerMethords = ['debug', 'error']
-  loggerMethords.forEach(methodName => {
+/**
+ * Ensure that the logger have basic methods
+ * @param {Logger} logger 
+ * @returns {Logger}
+ */
+const SanitizeLogger = (logger) => {
+  const loggerMethods = ['debug', 'error']
+  loggerMethods.forEach(methodName => {
     if (logger[methodName] === undefined || typeof (logger[methodName]) !== 'function') {
-      logger[methodName] = function () {}
+      logger[methodName] = function emptyMethod() {}
     }
   })
   return logger
@@ -274,9 +279,6 @@ class Postmate {
     url,
     name,
     classListArray = [],
-    /**
-     * Object with log and error methods
-     */
     logger = {},
   }) { // eslint-disable-line no-undef
     this.parent = window
@@ -290,7 +292,7 @@ class Postmate {
     this.model = model || {}
     this.childId = childId()
 
-    this.logger = CheckDefaultLoggerMethods(logger)
+    this.logger = SanitizeLogger(logger)
 
     return this.sendHandshake(url)
   }
@@ -370,7 +372,7 @@ Postmate.Model = class Model {
     this.child = window
     this.model = model
     this.parent = this.child.parent
-    this.logger = CheckDefaultLoggerMethods(logger)
+    this.logger = SanitizeLogger(logger)
     return this.sendHandshakeReply()
   }
 
