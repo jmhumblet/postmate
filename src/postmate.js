@@ -76,14 +76,14 @@ export const sanitize = (message, allowedOrigin) => {
 
 /**
  * Ensure that the logger have basic methods
- * @param {Logger} logger 
+ * @param {Logger} logger
  * @returns {Logger}
  */
 const SanitizeLogger = (logger) => {
   const loggerMethods = ['debug', 'error']
   loggerMethods.forEach(methodName => {
     if (logger[methodName] === undefined || typeof (logger[methodName]) !== 'function') {
-      logger[methodName] = function emptyMethod() {}
+      logger[methodName] = function emptyMethod () {}
     }
   })
   return logger
