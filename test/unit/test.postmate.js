@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import {
   ChildAPI,
-  log,
   maxHandshakeRequests,
   generateNewMessageId,
   messageType,
@@ -19,17 +18,6 @@ test('messageId', () => expect(!isNaN(generateNewMessageId())).toBe(true))
 test('generateNewMessageId adds 1', () => {
   const result = generateNewMessageId()
   expect(result).toBe(2)
-})
-
-test('postmate logs args', () => {
-  Postmate.debug = true
-  console.log = jest.fn()
-  log('a', 'b', 'c')
-  expect(typeof log !== 'undefined')
-  expect(typeof log).toBe('function')
-  expect(console.log.mock.calls[0][0]).toBe('a')
-  expect(console.log.mock.calls[0][1]).toBe('b')
-  expect(console.log.mock.calls[0][2]).toBe('c')
 })
 
 test('Sanitize', () => {
@@ -88,37 +76,35 @@ test('sanitize class is ready to rock', () => {
 // test mocks
 // the tests below test the interworkings of Postmate methods
 test('Postmate mocking', () => {
-  Postmate.debug = true
   const test = new Postmate({
     container: document.body,
     url: 'http://child.com/',
     model: { foo: 'bar' },
   })
-  expect(test.debug === true)
   expect(typeof test).toBe('object')
 })
 
 test('ChildAPI mocking', () => {
-  Postmate.debug = true
   const info = {
     model: { foo: 'bar' },
     parent: document.body,
     parentOrigin: 'https://parent.com',
     child: document.body,
     source: window,
+    logger: console,
   }
   const childMock = new ChildAPI(info)
   expect(typeof childMock).toBe('object')
 })
 
 test('ParentAPI mocking', () => {
-  Postmate.debug = true
   const info = {
     model: { foo: 'bar' },
     parent: document.body,
     parentOrigin: 'https://parent.com',
     child: document.body,
     source: window,
+    logger: console,
   }
   const parentMock = new ParentAPI(info)
   expect(typeof parentMock).toBe('object')

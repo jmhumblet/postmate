@@ -1,13 +1,15 @@
 {
   "name": "popostmate",
-  "version": "1.7.1",
+  "version": "2.0.0",
   "description": "A powerful, simple, promise-based postMessage library",
   "main": "build/postmate.js",
+  "types": "types/index.d.ts",
   "module": "build/postmate.es.js",
   "unpkg": "build/postmate.min.js",
   "files": [
     "build",
-    "src"
+    "src",
+    "types"
   ],
   "devDependencies": {
     "@babel/core": "^7.12.3",
